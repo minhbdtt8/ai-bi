@@ -7,14 +7,13 @@ public class FollowerBehavior : MonoBehaviour
     public float safeDistance = 1.5f; // Khoảng cách an toàn giữa Object và nhân vật
     public int minDiligence = 0; // Giá trị Diligence tối thiểu để Object đi theo
     public int maxDiligence = 30; // Giá trị Diligence tối đa để Object đi theo
+    public int happinessPenalty = 20; // Lượng Happiness bị trừ nếu không được Object đi theo
 
-    private bool isActivated = false; // Trạng thái: chỉ bắt đầu di chuyển khi kích hoạt
-    private Vector3 velocity = Vector3.zero; // Tốc độ dùng cho SmoothDamp
+    private bool isActivated = false; // Chỉ kích hoạt khi nhân vật chạm vào
 
     private void Update()
     {
-        // Kiểm tra nếu Object đã được kích hoạt
-        if (isActivated && IsWithinDiligenceRange())
+        if (isActivated)
         {
             float distance = Vector3.Distance(transform.position, player.position);
 
@@ -22,7 +21,34 @@ public class FollowerBehavior : MonoBehaviour
             if (distance > safeDistance)
             {
                 Vector3 targetPosition = player.position;
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, 0.3f);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Khi nhân vật chạm vào object
+        if (collision.CompareTag("Player"))
+        {
+            if (IsWithinDiligenceRange())
+            {
+                isActivated = true; // Object sẽ bắt đầu đi theo người chơi
+                Debug.Log("Object follows player!");
+            }
+            else
+            {
+                // Nếu không đủ Diligence, trừ Happiness (chỉ trừ 1 lần)
+                PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenalty, 0);
+
+                // Cập nhật UI nếu có StatsDisplay
+                StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
+                if (statsDisplay != null)
+                {
+                    statsDisplay.UpdateStatsUI();
+                }
+
+                Debug.Log($"Diligence too low! Happiness decreased to {PlayerStats.Happiness}");
             }
         }
     }
@@ -31,15 +57,5 @@ public class FollowerBehavior : MonoBehaviour
     {
         // Kiểm tra nếu Diligence nằm trong khoảng [minDiligence, maxDiligence]
         return PlayerStats.Diligence >= minDiligence && PlayerStats.Diligence <= maxDiligence;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // Kích hoạt khi nhân vật chạm vào
-        if (collision.CompareTag("Player"))
-        {
-            isActivated = true;
-            Debug.Log("Object activated by player!");
-        }
     }
 }
