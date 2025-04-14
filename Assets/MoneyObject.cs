@@ -1,50 +1,88 @@
 using UnityEngine;
+using TMPro;
 
 public class MoneyObject : MonoBehaviour
 {
-    public int minMoney = 5; // Số tiền tối thiểu có thể kiếm được
-    public int maxMoney = 20; // Số tiền tối đa có thể kiếm được
-    public float chanceToEarn = 0.5f; // 50% tỉ lệ nhận tiền
-    public int selfishIncreaseAmount = 5; // Số điểm Selfishness tăng khi kiếm được tiền
-    public int happinessIncreaseAmount = 15; // Số điểm Happiness tăng khi kiếm được tiền
+    public int minMoney = 5;
+    public int maxMoney = 20;
+    public float chanceToEarn = 0.5f;
+    public float chanceToLose = 0.2f; // Tỉ lệ mất tiền
+    public int selfishIncreaseAmount = 5;
+    public int happinessIncreaseAmount = 3;
+    public int happinessPenaltyAmount = 5; // Trừ Happiness khi mất tiền
+
+    public TextMeshProUGUI narrativeText;
+
+    private string[] lossNarratives = new string[]
+    {
+        "Bạn phải đóng tiền nhà, hơi buồn một chút.",
+        "Bạn bị công an phạt vì đi sai luật.",
+        "Bạn lỡ làm rơi ví trên đường.",
+        "Một khoản phí bất ngờ đến làm bạn mất tiền.",
+        "Bạn chi tiêu quá tay cho một món đồ không cần thiết."
+    };
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Kiểm tra nếu người chơi chạm vào
         if (collision.CompareTag("Player"))
         {
-            // Xác suất ngẫu nhiên để nhận tiền
-            if (Random.value <= chanceToEarn) // Random.value trả về số từ 0 đến 1
-            {
-                // Tính số tiền nhận được
-                int earnedMoney = Random.Range(minMoney, maxMoney + 1);
+            float roll = Random.value;
 
-                // Thêm tiền cho người chơi
+            if (roll <= chanceToEarn)
+            {
+                int earnedMoney = Random.Range(minMoney, maxMoney + 1);
                 PlayerMoney.Instance.AddMoney(earnedMoney);
 
-                // Tăng chỉ số Selfishness
                 PlayerStats.Selfishness += selfishIncreaseAmount;
-
-                // Tăng chỉ số Happiness
                 PlayerStats.Happiness = Mathf.Min(PlayerStats.Happiness + happinessIncreaseAmount, 100);
 
-                // Cập nhật UI nếu có StatsDisplay
-                StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
-                if (statsDisplay != null)
-                {
-                    statsDisplay.UpdateStatsUI();
-                }
-
-                // Debug thông báo
+                ShowNarrative("Bạn đang cảm thấy hạnh phúc khi kiếm được tiền.");
                 Debug.Log($"Player earned {earnedMoney} money! Selfishness: {PlayerStats.Selfishness}, Happiness: {PlayerStats.Happiness}");
+            }
+            else if (roll <= chanceToEarn + chanceToLose)
+            {
+                int lostMoney = Random.Range(minMoney, maxMoney + 1);
+                PlayerMoney.Instance.AddMoney(-lostMoney);
+
+                PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenaltyAmount, 0);
+
+                string randomLossText = lossNarratives[Random.Range(0, lossNarratives.Length)];
+                ShowNarrative(randomLossText);
+
+                Debug.Log($"Player lost {lostMoney} money! Happiness: {PlayerStats.Happiness}");
             }
             else
             {
+                ShowNarrative("Hôm nay bạn không nhận được gì cả.");
                 Debug.Log("No money this time!");
             }
 
-            // Hủy Object sau khi chạm
+            // Cập nhật UI
+            StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
+            if (statsDisplay != null)
+            {
+                statsDisplay.UpdateStatsUI();
+            }
+
             Destroy(gameObject);
+        }
+    }
+
+    private void ShowNarrative(string message)
+    {
+        if (narrativeText != null)
+        {
+            narrativeText.text = message;
+            CancelInvoke(nameof(ClearNarrative));
+            Invoke(nameof(ClearNarrative), 5f);
+        }
+    }
+
+    private void ClearNarrative()
+    {
+        if (narrativeText != null)
+        {
+            narrativeText.text = "";
         }
     }
 }

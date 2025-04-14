@@ -1,73 +1,72 @@
 using UnityEngine;
+using TMPro;
 
 public class FollowerBehavior : MonoBehaviour
 {
-    public Transform player; // Nhân vật chính
-    public float followSpeed = 2f; // Tốc độ di chuyển của Object
-    public float safeDistance = 1.5f; // Khoảng cách an toàn giữa Object và nhân vật
-    public int minDiligence = 0; // Giá trị Diligence tối thiểu để Object đi theo
-    public int maxDiligence = 30; // Giá trị Diligence tối đa để Object đi theo
-    public int happinessPenalty = 20; // Lượng Happiness bị trừ nếu không được Object đi theo
-    public float happinessIncreaseInterval = 2f; // Khoảng thời gian tăng Happiness
-    public int happinessIncreaseAmount = 1; // Lượng Happiness được tăng mỗi lần
+    public Transform player;
+    public float followSpeed = 2f;
+    public float safeDistance = 1.5f;
+    public int minDiligence = 0;
+    public int maxDiligence = 30;
+    public int happinessPenalty = 20;
 
-    private bool isActivated = false; // Chỉ kích hoạt khi nhân vật chạm vào
-    private float happinessTimer = 0f; // Bộ đếm thời gian để tăng Happiness
+    public TextMeshProUGUI narrativeText; // Text UI để kể chuyện
+
+    private bool isActivated = false;
+    private bool hasInteracted = false; // Đảm bảo chỉ kích hoạt 1 lần
+    private bool isChildFollower = false; // Dùng cho follower là con
 
     private void Update()
     {
-        if (isActivated)
+        if (isActivated && player != null)
         {
             float distance = Vector3.Distance(transform.position, player.position);
-
-            // Nếu khoảng cách lớn hơn safeDistance, di chuyển mượt mà về phía nhân vật
             if (distance > safeDistance)
             {
                 Vector3 targetPosition = player.position;
                 transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
             }
+        }
+    }
 
-            // Tăng Happiness theo thời gian
-            happinessTimer += Time.deltaTime;
-            if (happinessTimer >= happinessIncreaseInterval)
-            {
-                happinessTimer = 0f;
-                PlayerStats.Happiness = Mathf.Min(PlayerStats.Happiness + happinessIncreaseAmount, 100);
+    // Dùng khi tạo "con" từ prefab
+    public void Initialize(Transform targetPlayer, TextMeshProUGUI narrativeUI, bool isChild = false)
+    {
+        player = targetPlayer;
+        narrativeText = narrativeUI;
+        isChildFollower = isChild;
 
-                // Cập nhật UI nếu có StatsDisplay
-                StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
-                if (statsDisplay != null)
-                {
-                    statsDisplay.UpdateStatsUI();
-                }
+        isActivated = true;
 
-                Debug.Log($"Happiness increased to {PlayerStats.Happiness}");
-            }
+        if (isChildFollower)
+        {
+            ShowNarrative("Một sinh linh bé nhỏ xuất hiện – là kết tinh từ hành trình của bạn.");
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Khi nhân vật chạm vào object
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !hasInteracted)
         {
+            hasInteracted = true;
+
             if (IsWithinDiligenceRange())
             {
-                isActivated = true; // Object sẽ bắt đầu đi theo người chơi
+                isActivated = true;
+                ShowNarrative("Một người bạn mới tin tưởng bạn và quyết định đồng hành cùng bạn.");
                 Debug.Log("Object follows player!");
             }
             else
             {
-                // Nếu không đủ Diligence, trừ Happiness (chỉ trừ 1 lần)
                 PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenalty, 0);
 
-                // Cập nhật UI nếu có StatsDisplay
                 StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
                 if (statsDisplay != null)
                 {
                     statsDisplay.UpdateStatsUI();
                 }
 
+                ShowNarrative("Người đó không tin bạn đủ để đi cùng. Bạn cảm thấy hơi buồn.");
                 Debug.Log($"Diligence too low! Happiness decreased to {PlayerStats.Happiness}");
             }
         }
@@ -75,7 +74,25 @@ public class FollowerBehavior : MonoBehaviour
 
     private bool IsWithinDiligenceRange()
     {
-        // Kiểm tra nếu Diligence nằm trong khoảng [minDiligence, maxDiligence]
         return PlayerStats.Diligence >= minDiligence && PlayerStats.Diligence <= maxDiligence;
     }
+
+    private void ShowNarrative(string message)
+    {
+        if (narrativeText != null)
+        {
+            narrativeText.text = message;
+            CancelInvoke(nameof(ClearNarrative));
+            Invoke(nameof(ClearNarrative), 5f);
+        }
+    }
+
+    private void ClearNarrative()
+    {
+        if (narrativeText != null)
+        {
+            narrativeText.text = "";
+        }
+    }
 }
+
