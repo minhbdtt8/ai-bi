@@ -1,19 +1,14 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public Slider happinessSlider;
-    public Slider diligenceSlider;
-    public Slider selfishnessSlider;
-
     public void PlayGame()
     {
-        // Lấy giá trị từ Slider
-        int selectedHappiness = (int)happinessSlider.value;
-        int selectedDiligence = (int)diligenceSlider.value;
-        int selectedSelfishness = (int)selfishnessSlider.value;
+        // Random giá trị từ 1 đến 100
+        int selectedHappiness = Random.Range(1, 101);
+        int selectedDiligence = Random.Range(1, 101);
+        int selectedSelfishness = Random.Range(1, 101);
 
         // Random chỉ số với sai số ngẫu nhiên
         PlayerStats.Happiness = RandomizeStat(selectedHappiness);
@@ -34,8 +29,11 @@ public class MenuManager : MonoBehaviour
         float deviationValue = (originalValue * deviationPercent) / 100f;
 
         // Random cộng hoặc trừ sai số
-        int finalValue = Random.Range(0, 2) == 0 ? originalValue - (int)deviationValue : originalValue + (int)deviationValue;
+        int finalValue = Random.Range(0, 2) == 0
+            ? originalValue - (int)deviationValue
+            : originalValue + (int)deviationValue;
 
-        return finalValue; // Không giới hạn giá trị
+        // Giới hạn giá trị trong khoảng 1 đến 100
+        return Mathf.Clamp(finalValue, 1, 100);
     }
 }

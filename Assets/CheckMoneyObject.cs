@@ -3,6 +3,7 @@ using UnityEngine;
 public class CheckMoneyObject : MonoBehaviour
 {
     public string followerTag = "Follower"; // Tag để nhận diện tất cả các Follower Object
+    public int happinessPenalty = 40; // Lượng Happiness bị trừ nếu không còn follower
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,11 +16,30 @@ public class CheckMoneyObject : MonoBehaviour
                 // Tìm tất cả các Follower Object trong scene bằng tag
                 GameObject[] followers = GameObject.FindGameObjectsWithTag(followerTag);
 
-                foreach (GameObject follower in followers)
+                if (followers.Length > 0)
                 {
-                    // Hủy từng Follower Object
-                    Destroy(follower);
-                    Debug.Log("Destroyed follower: " + follower.name);
+                    foreach (GameObject follower in followers)
+                    {
+                        // Hủy từng Follower Object
+                        Destroy(follower);
+                        Debug.Log("Destroyed follower: " + follower.name);
+                    }
+
+                    // Trừ điểm Happiness vì mất follower
+                    PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenalty, 0);
+
+                    // Cập nhật UI nếu có StatsDisplay
+                    StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
+                    if (statsDisplay != null)
+                    {
+                        statsDisplay.UpdateStatsUI();
+                    }
+
+                    Debug.Log($"No more followers! Happiness decreased to {PlayerStats.Happiness}");
+                }
+                else
+                {
+                    Debug.Log("No followers found to destroy.");
                 }
             }
             else

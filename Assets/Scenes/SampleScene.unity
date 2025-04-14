@@ -156,7 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &10184934
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -432,7 +434,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &274458384
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -798,7 +802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -315, y: 30}
+  m_AnchoredPosition: {x: -336.1, y: 79.9}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &298979108
@@ -814,7 +818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -994,7 +998,7 @@ RectTransform:
   m_GameObject: {fileID: 433445202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433174171}
@@ -1002,7 +1006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -291, y: 125}
+  m_AnchoredPosition: {x: -366.8, y: 152.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &433445204
@@ -1034,8 +1038,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1135,7 +1139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &440274830
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1458,7 +1464,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &624234639
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1667,6 +1675,9 @@ MonoBehaviour:
   safeDistance: 1.5
   minDiligence: 31
   maxDiligence: 60
+  happinessPenalty: 20
+  happinessIncreaseInterval: 2
+  happinessIncreaseAmount: 1
 --- !u!212 &629310612
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2071,6 +2082,9 @@ MonoBehaviour:
   safeDistance: 1.5
   minDiligence: 61
   maxDiligence: 100
+  happinessPenalty: 20
+  happinessIncreaseInterval: 2
+  happinessIncreaseAmount: 1
 --- !u!212 &715821369
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2318,7 +2332,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &839578943
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2464,7 +2480,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &962824739
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2610,7 +2628,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &1116425343
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3052,7 +3072,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &1329044592
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3246,6 +3268,9 @@ MonoBehaviour:
   safeDistance: 1.5
   minDiligence: 0
   maxDiligence: 30
+  happinessPenalty: 20
+  happinessIncreaseInterval: 2
+  happinessIncreaseAmount: 1
 --- !u!212 &1333304615
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3346,7 +3371,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &1372077251
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3486,7 +3513,7 @@ RectTransform:
   m_GameObject: {fileID: 1411254173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433174171}
@@ -3494,8 +3521,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -291, y: 175}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -370.3, y: 189.8}
+  m_SizeDelta: {x: 189.0065, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1411254175
 MonoBehaviour:
@@ -3526,8 +3553,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3621,7 +3648,7 @@ RectTransform:
   m_GameObject: {fileID: 1490118593}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433174171}
@@ -3629,7 +3656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -291, y: 74}
+  m_AnchoredPosition: {x: -365.1, y: 114.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1490118595
@@ -3661,8 +3688,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3761,6 +3788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followerTag: Follower
+  happinessPenalty: 40
 --- !u!61 &1538634382
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3990,7 +4018,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &1762490322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4400,7 +4430,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &1781749827
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4713,6 +4745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followerTag: Follower
+  happinessPenalty: 40
 --- !u!61 &2018640448
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4858,7 +4891,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoney: 5
   maxMoney: 20
-  diligenceThreshold: 50
+  chanceToEarn: 0.5
+  selfishIncreaseAmount: 5
+  happinessIncreaseAmount: 15
 --- !u!61 &2030973092
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5003,6 +5038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followerTag: Follower
+  happinessPenalty: 40
 --- !u!61 &2091450081
 BoxCollider2D:
   m_ObjectHideFlags: 0

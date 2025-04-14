@@ -8,8 +8,11 @@ public class FollowerBehavior : MonoBehaviour
     public int minDiligence = 0; // Giá trị Diligence tối thiểu để Object đi theo
     public int maxDiligence = 30; // Giá trị Diligence tối đa để Object đi theo
     public int happinessPenalty = 20; // Lượng Happiness bị trừ nếu không được Object đi theo
+    public float happinessIncreaseInterval = 2f; // Khoảng thời gian tăng Happiness
+    public int happinessIncreaseAmount = 1; // Lượng Happiness được tăng mỗi lần
 
     private bool isActivated = false; // Chỉ kích hoạt khi nhân vật chạm vào
+    private float happinessTimer = 0f; // Bộ đếm thời gian để tăng Happiness
 
     private void Update()
     {
@@ -22,6 +25,23 @@ public class FollowerBehavior : MonoBehaviour
             {
                 Vector3 targetPosition = player.position;
                 transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+            }
+
+            // Tăng Happiness theo thời gian
+            happinessTimer += Time.deltaTime;
+            if (happinessTimer >= happinessIncreaseInterval)
+            {
+                happinessTimer = 0f;
+                PlayerStats.Happiness = Mathf.Min(PlayerStats.Happiness + happinessIncreaseAmount, 100);
+
+                // Cập nhật UI nếu có StatsDisplay
+                StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
+                if (statsDisplay != null)
+                {
+                    statsDisplay.UpdateStatsUI();
+                }
+
+                Debug.Log($"Happiness increased to {PlayerStats.Happiness}");
             }
         }
     }

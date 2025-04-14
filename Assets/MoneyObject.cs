@@ -6,6 +6,7 @@ public class MoneyObject : MonoBehaviour
     public int maxMoney = 20; // Số tiền tối đa có thể kiếm được
     public float chanceToEarn = 0.5f; // 50% tỉ lệ nhận tiền
     public int selfishIncreaseAmount = 5; // Số điểm Selfishness tăng khi kiếm được tiền
+    public int happinessIncreaseAmount = 15; // Số điểm Happiness tăng khi kiếm được tiền
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,8 +25,18 @@ public class MoneyObject : MonoBehaviour
                 // Tăng chỉ số Selfishness
                 PlayerStats.Selfishness += selfishIncreaseAmount;
 
+                // Tăng chỉ số Happiness
+                PlayerStats.Happiness = Mathf.Min(PlayerStats.Happiness + happinessIncreaseAmount, 100);
+
+                // Cập nhật UI nếu có StatsDisplay
+                StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
+                if (statsDisplay != null)
+                {
+                    statsDisplay.UpdateStatsUI();
+                }
+
                 // Debug thông báo
-                Debug.Log($"Player earned {earnedMoney} money! Selfishness increased to {PlayerStats.Selfishness}");
+                Debug.Log($"Player earned {earnedMoney} money! Selfishness: {PlayerStats.Selfishness}, Happiness: {PlayerStats.Happiness}");
             }
             else
             {
@@ -37,4 +48,3 @@ public class MoneyObject : MonoBehaviour
         }
     }
 }
-
