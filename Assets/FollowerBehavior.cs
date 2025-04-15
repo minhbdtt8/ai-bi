@@ -9,10 +9,10 @@ public class FollowerBehavior : MonoBehaviour
     public int minDiligence = 0;
     public int maxDiligence = 30;
     public int happinessPenalty = 20;
-
+    
     public TextMeshProUGUI narrativeText; // Text UI để kể chuyện
 
-    private bool isActivated = false;
+    public bool isActivated = false;
     private bool hasInteracted = false; // Đảm bảo chỉ kích hoạt 1 lần
     private bool isChildFollower = false; // Dùng cho follower là con
 
@@ -53,9 +53,12 @@ public class FollowerBehavior : MonoBehaviour
             if (IsWithinDiligenceRange())
             {
                 isActivated = true;
-                ShowNarrative("Một người bạn mới tin tưởng bạn và quyết định đồng hành cùng bạn.");
+                PlayerStats.HasWife = true; // <- thêm dòng này
                 Debug.Log("Object follows player!");
+
+                ShowNarrative("Một người bạn mới tin tưởng bạn và quyết định đồng hành cùng bạn.");
             }
+
             else
             {
                 PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenalty, 0);
