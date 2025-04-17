@@ -11,7 +11,7 @@ public class CheckMoneyObject : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // Kiểm tra số tiền của người chơi
-            if (PlayerMoney.Instance.money <= 0)
+            if (PlayerMoney.Instance.money <= 45)
             {
                 // Tìm tất cả các Follower Object trong scene bằng tag
                 GameObject[] followers = GameObject.FindGameObjectsWithTag(followerTag);
