@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class StatObject : MonoBehaviour
 {
@@ -54,6 +55,9 @@ public class StatObject : MonoBehaviour
 
                 ShowNarrative(accidentNarratives[Random.Range(0, accidentNarratives.Length)]);
                 Debug.Log("Player died due to accident!");
+
+                //  Chuyển đến scene tổng kết
+                SceneManager.LoadScene("End"); // Đảm bảo tên đúng và đã được thêm vào Build Settings
             }
             else if (roll <= chanceOfDeath + chanceToGain)
             {
@@ -100,18 +104,16 @@ public class StatObject : MonoBehaviour
 
     void ShowNarrative(string message)
     {
-        // Kiểm tra nếu TextMeshProUGUI không phải null, sau đó hiển thị thông báo
         if (narrativeText != null)
         {
-            narrativeText.text = message; // Hiển thị câu chuyện
-            CancelInvoke(nameof(ClearNarrative)); // Đảm bảo xóa thông báo cũ
-            Invoke("ClearNarrative", 5f); // Đặt thời gian chờ 5 giây để xóa câu chuyện
+            narrativeText.text = message;
+            CancelInvoke(nameof(ClearNarrative));
+            Invoke("ClearNarrative", 5f);
         }
     }
 
     void ClearNarrative()
     {
-        // Xóa nội dung của câu chuyện khi đã hết thời gian
         if (narrativeText != null)
         {
             narrativeText.text = "";

@@ -28,6 +28,9 @@ public class CheckMoneyObject : MonoBehaviour
                     // Trừ điểm Happiness vì mất follower
                     PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenalty, 0);
 
+                    // ✅ Cập nhật lại trạng thái không còn vợ
+                    PlayerStats.HasWife = false;
+
                     // Cập nhật UI nếu có StatsDisplay
                     StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
                     if (statsDisplay != null)
