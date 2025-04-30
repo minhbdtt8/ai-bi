@@ -15,9 +15,7 @@ public class MenuManager : MonoBehaviour
         PlayerStats.Diligence = RandomizeStat(selectedDiligence);
         PlayerStats.Selfishness = RandomizeStat(selectedSelfishness);
 
-        // In chỉ số sau khi random ra Console
-        Debug.Log($"Final Stats - Happiness: {PlayerStats.Happiness}, Diligence: {PlayerStats.Diligence}, Selfishness: {PlayerStats.Selfishness}");
-
+        
         // Chuyển sang game scene
         SceneManager.LoadScene("SampleScene");
     }

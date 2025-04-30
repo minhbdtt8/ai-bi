@@ -3,11 +3,11 @@ using TMPro;
 
 public class DecisionPoint : MonoBehaviour
 {
-    public Transform position1; // Vị trí cho selfishness < 33%
-    public Transform position2; // Vị trí cho 33% <= selfishness <= 67%
-    public Transform position3; // Vị trí cho selfishness > 67%
+    public Transform position1; // Position for selfishness < 33%
+    public Transform position2; // Position for 33% <= selfishness <= 67%
+    public Transform position3; // Position for selfishness > 67%
 
-    public TextMeshProUGUI narrativeText; // Gắn Narrative Text UI vào đây
+    public TextMeshProUGUI narrativeText; // Assign the Narrative Text UI here
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,29 +21,29 @@ public class DecisionPoint : MonoBehaviour
             if (selfishness <= 33)
             {
                 nextPosition = position1;
-                message = "Bạn luôn quan tâm đến người khác. Con đường này mang theo hy vọng và lòng vị tha.";
+                message = "You always care about others. This path is filled with hope and compassion.";
             }
             else if (selfishness <= 67)
             {
                 nextPosition = position2;
-                message = "Bạn đang đấu tranh giữa lợi ích bản thân và người khác. Con đường này đầy những lựa chọn khó khăn.";
+                message = "You are torn between self-interest and concern for others. This path is full of difficult choices.";
             }
             else
             {
                 nextPosition = position3;
-                message = "Bạn đặt bản thân lên trên hết. Con đường này cô đơn nhưng đầy quyền lực.";
+                message = "You prioritize yourself above all. This path is lonely, but full of power.";
             }
 
-            // Di chuyển người chơi
+            // Move the player
             collision.transform.position = nextPosition.position;
 
-            // Hiển thị đoạn văn kể chuyện
+            // Show the narrative message
             if (narrativeText != null)
             {
                 narrativeText.text = message;
             }
 
-            Debug.Log("Story shown: " + message);
+            
         }
     }
 }

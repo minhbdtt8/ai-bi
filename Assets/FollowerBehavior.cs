@@ -9,12 +9,12 @@ public class FollowerBehavior : MonoBehaviour
     public int minDiligence = 0;
     public int maxDiligence = 30;
     public int happinessPenalty = 20;
-    
-    public TextMeshProUGUI narrativeText; // Text UI để kể chuyện
+
+    public TextMeshProUGUI narrativeText; // UI text for narrative messages
 
     public bool isActivated = false;
-    private bool hasInteracted = false; // Đảm bảo chỉ kích hoạt 1 lần
-    private bool isChildFollower = false; // Dùng cho follower là con
+    private bool hasInteracted = false; // Ensure the interaction only happens once
+    private bool isChildFollower = false; // Used for child followers
 
     private void Update()
     {
@@ -29,7 +29,7 @@ public class FollowerBehavior : MonoBehaviour
         }
     }
 
-    // Dùng khi tạo "con" từ prefab
+    // Called when spawning a child from prefab
     public void Initialize(Transform targetPlayer, TextMeshProUGUI narrativeUI, bool isChild = false)
     {
         player = targetPlayer;
@@ -40,7 +40,7 @@ public class FollowerBehavior : MonoBehaviour
 
         if (isChildFollower)
         {
-            ShowNarrative("Một sinh linh bé nhỏ xuất hiện – là kết tinh từ hành trình của bạn.");
+            ShowNarrative("A small soul has appeared – the embodiment of your journey.");
         }
     }
 
@@ -53,12 +53,11 @@ public class FollowerBehavior : MonoBehaviour
             if (IsWithinDiligenceRange())
             {
                 isActivated = true;
-                PlayerStats.HasWife = true; // <- thêm dòng này
-                Debug.Log("Object follows player!");
+                PlayerStats.HasWife = true; // Register wife/follower
+                
 
-                ShowNarrative("Một người bạn mới tin tưởng bạn và quyết định đồng hành cùng bạn.");
+                ShowNarrative("A new companion has come to trust you and decided to walk alongside you.");
             }
-
             else
             {
                 PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenalty, 0);
@@ -69,8 +68,8 @@ public class FollowerBehavior : MonoBehaviour
                     statsDisplay.UpdateStatsUI();
                 }
 
-                ShowNarrative("Người đó không tin bạn đủ để đi cùng. Bạn cảm thấy hơi buồn.");
-                Debug.Log($"Diligence too low! Happiness decreased to {PlayerStats.Happiness}");
+                ShowNarrative("That person doesn’t trust you enough to follow. You feel a little down.");
+                
             }
         }
     }
@@ -98,4 +97,3 @@ public class FollowerBehavior : MonoBehaviour
         }
     }
 }
-

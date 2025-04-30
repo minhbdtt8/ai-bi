@@ -6,20 +6,36 @@ public class MoneyObject : MonoBehaviour
     public int minMoney = 5;
     public int maxMoney = 20;
     public float chanceToEarn = 0.5f;
-    public float chanceToLose = 0.2f; // Tỉ lệ mất tiền
+    public float chanceToLose = 0.2f;
     public int selfishIncreaseAmount = 5;
     public int happinessIncreaseAmount = 3;
-    public int happinessPenaltyAmount = 5; // Trừ Happiness khi mất tiền
+    public int happinessPenaltyAmount = 5;
 
     public TextMeshProUGUI narrativeText;
 
+    private string[] earnNarratives = new string[]
+    {
+        "💰 You found an unexpected bonus today!",
+        "🎉 A small freelance gig brought in some cash.",
+        "😊 Your efforts paid off with extra money.",
+        "📈 You received a surprise reward from work!"
+    };
+
     private string[] lossNarratives = new string[]
     {
-        "Bạn phải đóng tiền nhà, hơi buồn một chút.",
-        "Bạn bị công an phạt vì đi sai luật.",
-        "Bạn lỡ làm rơi ví trên đường.",
-        "Một khoản phí bất ngờ đến làm bạn mất tiền.",
-        "Bạn chi tiêu quá tay cho một món đồ không cần thiết."
+        "💸 Rent was due, and it left your wallet light.",
+        "🚨 You were fined for breaking a minor law.",
+        "😓 You dropped your wallet on the street.",
+        "💳 An unexpected charge drained your account.",
+        "🛍️ You overspent on something you didn't need."
+    };
+
+    private string[] noChangeNarratives = new string[]
+    {
+        "🤷‍♂️ Nothing significant happened today.",
+        "📉 A slow day—no money gained or lost.",
+        "🕐 You waited all day but no opportunity came.",
+        "🌧️ Just one of those unremarkable days."
     };
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,8 +52,7 @@ public class MoneyObject : MonoBehaviour
                 PlayerStats.Selfishness += selfishIncreaseAmount;
                 PlayerStats.Happiness = Mathf.Min(PlayerStats.Happiness + happinessIncreaseAmount, 100);
 
-                ShowNarrative("Bạn đang cảm thấy hạnh phúc khi kiếm được tiền.");
-                Debug.Log($"Player earned {earnedMoney} money! Selfishness: {PlayerStats.Selfishness}, Happiness: {PlayerStats.Happiness}");
+                ShowNarrative(earnNarratives[Random.Range(0, earnNarratives.Length)]);
             }
             else if (roll <= chanceToEarn + chanceToLose)
             {
@@ -46,23 +61,17 @@ public class MoneyObject : MonoBehaviour
 
                 PlayerStats.Happiness = Mathf.Max(PlayerStats.Happiness - happinessPenaltyAmount, 0);
 
-                string randomLossText = lossNarratives[Random.Range(0, lossNarratives.Length)];
-                ShowNarrative(randomLossText);
-
-                Debug.Log($"Player lost {lostMoney} money! Happiness: {PlayerStats.Happiness}");
+                ShowNarrative(lossNarratives[Random.Range(0, lossNarratives.Length)]);
             }
             else
             {
-                ShowNarrative("Hôm nay bạn không nhận được gì cả.");
-                Debug.Log("No money this time!");
+                ShowNarrative(noChangeNarratives[Random.Range(0, noChangeNarratives.Length)]);
             }
 
-            // Cập nhật UI
+            // Update UI
             StatsDisplay statsDisplay = FindObjectOfType<StatsDisplay>();
             if (statsDisplay != null)
-            {
                 statsDisplay.UpdateStatsUI();
-            }
 
             Destroy(gameObject);
         }
