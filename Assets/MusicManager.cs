@@ -17,7 +17,7 @@ public class MusicManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Music playlist is empty!");
+            
         }
     }
 

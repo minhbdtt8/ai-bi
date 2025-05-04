@@ -15,13 +15,13 @@ public class HappyCheckObject : MonoBehaviour
             if (PlayerStats.Happiness < happyThreshold)
             {
                 // Reset lại level hiện tại
-                Debug.Log("Happy is below threshold. Restarting level...");
+                
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             else
             {
                 // Chuyển sang Scene tiếp theo
-                Debug.Log("Happy is above threshold. Moving to the next level...");
+               
                 int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
                 // Kiểm tra nếu scene tiếp theo tồn tại
@@ -31,7 +31,7 @@ public class HappyCheckObject : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("No more levels! End of the game.");
+                    
                 }
             }
         }

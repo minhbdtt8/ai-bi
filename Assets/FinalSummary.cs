@@ -96,7 +96,7 @@ public class FinalSummary : MonoBehaviour
     // Hàm này sẽ thoát ứng dụng sau 30 giây
     void QuitApplication()
     {
-        Debug.Log("Application will quit now...");
+        
         Application.Quit();
 
         // Nếu đang trong chế độ Editor, dừng ứng dụng (thử nghiệm)
